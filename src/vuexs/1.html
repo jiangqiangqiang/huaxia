@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>谢谢反馈</title>
+  <link rel="stylesheet" href="../static/css/new_file.css" type="text/css">
+  <script type="text/javascript" src="../static/js/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+<!--头部  star-->
+<header>
+  <a href="javascript:closePage()">
+    <div class="_left"><img src="../static/img/left.png"></div>
+    请输入未解决原因
+  </a>
+</header>
+<!--头部 end-->
+<!--内容 star-->
+<div class="contaniner fixed-cont">
+  <!--1-->
+  <section class="assess">
+    <p>
+      <textarea rows="7" maxlength="200" placeholder="您不用客气，给机器人提意见，字数限制---200，么么哒〜〜" id="reasonText"></textarea>
+    </p>
+  </section>
+  <footer class="assess-footer ">
+    <ul>
+
+      <input type="button" value="提交" onclick="submitClick()">
+    </ul>
+  </footer>
+</div>
+<!--内容 end-->
+
+<!--底部  end-->
+<script type="text/javascript">
+  function submitClick(){
+    var reason = $("#reasonText").val();
+    $.ajax({
+      type:"post",
+      url:"http://wx.sayinfo.cn/feedback/uslvsubmit",
+      data: {"reason" : reason, "rltId" : {{.rltId}}},
+    dataType:"json",
+      success:function(json){
+      if(json && json.rc == 0) {
+        WeixinJSBridge.invoke('closeWindow',{},function(res){
+
+
+        });
+      }
+    }
+  });
+
+  }
+  function closePage(){
+    WeixinJSBridge.invoke('closeWindow',{},function(res){});
+  }
+</script>
+
+</body>
+</html>
